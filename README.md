@@ -45,3 +45,35 @@ Ensure you have the following tools installed:
    ```
 
 
+## GitHub Actions CI/CD
+This project includes a GitHub Actions workflow for continuous integration and deployment. The workflow is defined in .github/workflows/java-ci.yml. It automates the following tasks:
+
+1. Increment version: The version in pom.xml is incremented automatically with each push to the master branch.
+
+2. Docker Build & Push: After building the application, the Docker image is pushed to Docker Hub.
+
+3. Run Docker container: The workflow runs the built Docker container to ensure the application works correctly.
+
+
+## GitHub Actions Key points:
+- Versioning: The version in pom.xml is automatically incremented on every push to master.
+- Docker Hub Integration: The Docker image is tagged with the version number and pushed to Docker Hub for distribution.
+- Build Caching: Maven dependencies are cached for faster builds using GitHub Actions cache.
+
+## Dockerfile:
+The Dockerfile is set up for a multi-stage build to keep the runtime image small and efficient. It first builds the project with Maven and then creates a runtime image based on OpenJDK 17.
+
+   ```bash
+   # Stage 1: Build the application
+   FROM maven:3.9.9-eclipse-temurin-21-alpine AS build
+   WORKDIR /app
+   COPY . .
+   RUN mvn clean verify
+
+   # Stage 2: Create the runtime image
+   FROM openjdk:17-jdk-slim
+   WORKDIR /app
+   COPY --from=build /app/target/my-app-*.jar app.jar
+   EXPOSE 8080
+   CMD ["java", "-jar", "app.jar"]
+   ```
