@@ -35,11 +35,11 @@ Ensure you have the following tools installed:
    ```
 
 3. **Build and run the Docker image:**:
-  - First, build the Docker image:
+- First, build the Docker image:
    ```bash
    docker build -t my-app .
    ```
-  - Run the Docker container:
+- Run the Docker container:
    ```bash
    docker run --rm my-app
    ```
