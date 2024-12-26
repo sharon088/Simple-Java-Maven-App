@@ -40,7 +40,7 @@ Ensure you have the following tools installed:
    docker build -t my-app .
    ```
   - Run the Docker container:
-    ```bash
+   ```bash
    docker run --rm my-app
    ```
 
